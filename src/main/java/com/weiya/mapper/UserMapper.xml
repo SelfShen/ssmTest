@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.weiya.dao.UserDao">
+	
+	<sql id="sql_userlab">
+		userId,userName,password,age
+	</sql>
+
+	<!-- 插入用户数据 -->
+	<insert id="addUser" parameterType="com.weiya.model.User">
+		insert into t_user(<include refid="sql_userlab"/>)
+		values
+		(#{userId},#{userName},#{password},#{age})
+	</insert>
+	
+	<!-- 根据用户Id查询用户 -->
+	<select id="findUserById" resultType="com.weiya.model.User" parameterType="Integer">
+		select <include refid="sql_userlab"/> from t_user
+		<where>
+			Id=#{Id}
+		</where>
+	</select>
+	
+	<!-- 查找所有用户 -->
+	<select id="findAllUser" resultType="com.weiya.model.User">
+		select <include refid="sql_userlab"/> from t_user
+	</select>
+	<!-- 根据用户Id删除用户 -->
+	<delete id="deleteUserById" parameterType="Integer">
+		delete <include refid="sql_userlab"/> from t_user 
+		<where>
+			id=#{Id}
+		</where>
+	</delete>
+	<!-- 根据用户Id修改用户 -->
+	<update id="modifyUserById" parameterType="com.weiya.model.User">
+		update t_user
+		<set>
+			userId=#{userId},
+			userName=#{userName},
+			password=#{password},
+			age=#{age}
+		</set>
+		<where>
+			id=#{Id}
+		</where>
+	</update>
+</mapper>
